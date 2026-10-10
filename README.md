@@ -1,221 +1,165 @@
-# Student Performance Analytics System
+🎓 Student Performance Analytics System
 
-A beginner-friendly web dashboard that analyses the marks and attendance of students using **Python, NumPy and Pandas**, presented with **Streamlit**. It is an academic project for a *Python with AI* course.
+A web dashboard that analyses student marks and attendance. Built with Python, NumPy, Pandas and Streamlit as an academic project for a Python with AI course.
 
-> **Fictional data:** every student in `students.csv` is invented for this project. No real student information is used.
->
-> **Provisional rules:** the grade boundaries, pass policy and attendance threshold are **assumptions for this project, not verified official college rules** (see [section 7](#7-provisional-grading-and-passing-rules)).
+	
+🌐 Live website	https://student-performance-analytics-ashmita06.streamlit.app/
+💻 GitHub repository	https://github.com/iashmita97/Student_performance_Analytics
+👩‍🎓 Author	Ashmita
 
-| | |
-|---|---|
-| **GitHub repository** | `[PASTE YOUR GITHUB REPOSITORY URL HERE]` |
-| **Live website** | `[PASTE YOUR STREAMLIT COMMUNITY CLOUD URL HERE]` |
-| **Author** | `[Your Name]` - `[Your College]` - `[Your Course]` |
+Fictional data: every student in students.csv is invented for this project. No real student information is used.
 
----
+Provisional rules: the grade boundaries, pass policy and attendance threshold are assumptions made for this project. They are not verified official college rules.
 
-## 1. Project overview
+📌 Table of Contents
+Project Overview
+Features
+Technologies Used and How
+How the Project Works
+Folder Structure
+Dataset
+Grading and Pass Rules
+Calculations
+Data Validation
+Run Locally on Windows
+Automated Tests
+Deployment
+1. Project Overview
 
-The application reads 28 fictional student records from `students.csv`, checks that the data is valid, calculates totals, averages, grades, pass/fail results, rankings and attendance flags, and shows everything in an interactive dashboard. No machine learning, database, API key or paid service is used.
+The app reads 28 fictional student records from students.csv, checks that the data is valid, and then calculates totals, averages, grades, pass/fail results, ranks and attendance flags. Everything is shown in an interactive dashboard.
 
-## 2. Project objectives
+No machine learning, database, API key or paid service is used.
 
-- Practise Python fundamentals: variables, data types, conditions, loops and functions.
-- Use **NumPy** for numerical calculations and **Pandas** for loading, filtering and analysing tabular data.
-- Keep calculation logic (`functions.py`) separate from the user interface (`app.py`) so it can be tested.
-- Validate input data and report problems clearly instead of hiding them.
-- Publish the finished app on GitHub and Streamlit Community Cloud.
+2. Features
+Tab	What it shows
+Overview	Student count, class average, pass percentage, passed/failed counts, and the highest-performing student(s). Ties are handled.
+Student Records	The original dataset, a calculated results table, department filter, pass/fail filter, name/ID search, and a CSV download of the filtered rows.
+Subject Analysis	Average marks of each subject, a comparison chart, and the highest and lowest subject.
+Student Performance	Highest and lowest student averages, a ranked top-student table, and a chart of every student's average.
+Attendance	Average, highest and lowest attendance, a chart with a threshold line, and students below an adjustable threshold. Low attendance is kept separate from academic failure.
+Individual Student	Pick a student to see marks, total, average, grade, rank, pass/fail (with the reason for a fail) and attendance.
+Downloads	A CSV of all results, including the calculated fields.
 
-## 3. Key features
+The sidebar also has a low-attendance slider and a panel showing the grading rules in use.
 
-- **Overview:** student count, class average, pass percentage, passed/failed counts, highest-performing student(s) (ties handled).
-- **Student Records:** original dataset, calculated results table, department filter, pass/fail filter, name/ID search, CSV download of the filtered rows.
-- **Subject Analysis:** average of each subject, comparison chart, highest and lowest subject (ties handled).
-- **Student Performance:** highest and lowest student averages, ranked top-N table (tied students share a rank), chart of all student averages.
-- **Attendance:** average, highest and lowest attendance, chart with threshold line, list of students below an adjustable threshold, clearly separated from academic failure.
-- **Individual Student:** choose a student to see marks, total, average, grade, rank, result (with the reason for a fail) and attendance.
-- **Downloads:** CSV of all results including the calculated fields.
-- **Error handling:** clear messages for a missing file, malformed CSV, missing columns, missing values, non-numeric or out-of-range marks/attendance, and duplicate student IDs. Invalid data is never silently replaced.
+3. Technologies Used and How
+Technology	Where it is used	How it is used
+Python	app.py, functions.py, test_functions.py	Variables and data types for the configuration. if statements for grading and pass/fail rules. for loops to find a grade and to build tables and lists. Reusable functions for every calculation. A custom DataValidationError class for clear error messages.
+NumPy	functions.py	np.sum(axis=1) gives each student's total. np.mean(axis=0) gives each subject's average. np.mean, np.max, np.min and np.sum summarise attendance. np.where creates the Low_Attendance Yes/No column. np.isfinite rejects invalid numbers.
+Pandas	functions.py, app.py	read_csv loads students.csv into a DataFrame. to_numeric converts marks during validation. New columns hold Total, Average, Grade, Result, Rank and Low_Attendance. Boolean filtering, isin and str.contains power the filters and search. rank(method="min") gives tied students the same rank. to_csv creates the downloads.
+Streamlit	app.py	Builds the web page: tabs, columns, metric cards, tables with number formatting, sidebar, slider, multiselect, radio buttons, text search, dropdown, download buttons, and error and info messages.
+Altair	app.py	Draws the bar charts: subject averages with labels, student averages coloured green (pass) or red (fail), and attendance with a dashed threshold line. Comes with Streamlit and is listed in requirements.txt.
+unittest	test_functions.py	Tests grade boundaries, pass/fail rules, ties, validation, filters and CSV export. Also uses Streamlit's built-in AppTest to check that the app starts and shows errors for bad data.
+Git and GitHub	Repository	Stores the code and tracks changes.
+Streamlit Community Cloud	Live website	Deploys the app from the main branch using app.py as the entry point and installs the packages in requirements.txt.
+4. How the Project Works
 
-## 4. Technologies used
+The calculations and the web page are kept in separate files, so the calculations can be tested without opening the website.
 
-| Technology | Purpose |
-|---|---|
-| Python 3.10 or newer (developed and tested with Python 3.12) | Programming language |
-| NumPy | Sums, means, minimum and maximum |
-| Pandas | Loading the CSV, DataFrames, filtering |
-| Streamlit | Web interface |
-| Altair | Charts (installed together with Streamlit; listed in `requirements.txt`) |
-| `unittest` | Automated tests (part of Python) |
-
-## 5. Folder structure
-
-```
-student-performance-analytics/
-├── app.py                    # Streamlit web application (the entry point)
-├── functions.py              # Calculations, validation and the grading configuration
+students.csv  ──►  functions.py  ──►  app.py  ──►  Dashboard in the browser
+ (the data)       (load, validate,    (Streamlit      (tabs, charts, tables,
+                   calculate)          interface)      CSV downloads)
+                        ▲
+                        │
+                 test_functions.py
+                 (automated tests)
+app.py asks functions.py to load and validate students.csv.
+If the data is invalid, the app shows every problem and stops. It never replaces bad values with invented ones.
+If the data is valid, functions.py adds the calculated columns.
+app.py displays the results in tabs, charts and tables.
+5. Folder Structure
+Student_performance_Analytics/
+├── app.py                    # Streamlit web app (entry point)
+├── functions.py              # Calculations, validation, grading settings
 ├── students.csv              # 28 fictional student records
 ├── requirements.txt          # Python packages needed
 ├── test_functions.py         # Automated tests
 ├── README.md                 # This file
 ├── Project_Documentation.md  # Academic project documentation
-├── .gitignore                # Files Git should ignore
+├── .gitignore                # Files Git ignores
 └── .streamlit/
     └── config.toml           # Colour theme only (no secrets)
-```
+6. Dataset
 
-## 6. Dataset description
+students.csv has one row per student:
 
-`students.csv` has one row per student and these columns:
+Column	Meaning
+Student_ID	Unique ID such as S001
+Name	Fictional student name
+Department	Computer Science, Information Technology, Electronics or Mechanical
+Mathematics, Python, Computer_Science, English	Marks out of 100 each
+Attendance	Attendance percentage (0 to 100)
 
-| Column | Meaning |
-|---|---|
-| `Student_ID` | Unique ID such as `S001` |
-| `Name` | Fictional student name |
-| `Department` | Computer Science, Information Technology, Electronics or Mechanical |
-| `Mathematics`, `Python`, `Computer_Science`, `English` | Marks out of 100 each |
-| `Attendance` | Attendance percentage (0-100) |
+The data has no missing values and no duplicate IDs. It includes a wide range of performance (grades A to F) and a few deliberate special cases:
 
-The data contains no missing values or duplicate IDs. It deliberately includes varied performance levels and some special cases useful for demonstration: two students tied for the highest average, a student who fails because of a single subject despite an average above 40, students with low attendance who pass and who fail, a student with attendance exactly on the threshold, and a student with exactly 35 marks in one subject.
+two students tied for the highest average
+a student who fails because of one subject even though the average is above 40
+students with low attendance who pass, and others who fail
+a student whose attendance is exactly on the threshold
+7. Grading and Pass Rules
 
-To use your own data, edit `students.csv` and keep the same column names. If anything is invalid the app lists every problem instead of showing wrong results.
+Each of the 4 subjects is worth 100 marks, so the maximum total is 400.
 
-## 7. Provisional grading and passing rules
+Grade	Average marks
+A	90 to 100
+B	80 to below 90
+C	70 to below 80
+D	60 to below 70
+E	40 to below 60
+F	below 40
+Pass: at least 35 marks in every subject and an overall average of at least 40. Otherwise the result is Fail.
+Low attendance: attendance below 75%. Attendance is never used for pass/fail.
+Grade and result are separate: a student can have grade E but still fail, for example with only 30 marks in one subject.
 
-Maximum total = 4 subjects x 100 = **400**. Student average = total / 4. Pass percentage = passed students / total students x 100.
+These rules are stored in one configuration section at the top of functions.py, so they are easy to change.
 
-| Grade | Average |
-|---|---|
-| A | 90 - 100 |
-| B | 80 to below 90 |
-| C | 70 to below 80 |
-| D | 60 to below 70 |
-| E | 40 to below 60 |
-| F | below 40 |
+8. Calculations
+Calculation	Formula or rule
+Total marks	Sum of the four subject marks
+Average marks	Total ÷ 4
+Class average	Mean of all student averages
+Subject average	Mean of one subject across all students
+Pass percentage	Passed students ÷ total students × 100
+Rank	Equal averages share a rank (for example 1, 1, 3)
+Highest and lowest	All tied students are listed, never just one
+Low attendance	Attendance below the threshold (exactly equal is not low)
+9. Data Validation
 
-- **Pass:** at least **35** marks in **every** subject **and** an overall average of at least **40**. Otherwise **Fail**.
-- **Low attendance:** attendance **below 75%**. Attendance is **never** used for pass/fail.
-- The grade depends only on the average, so a student can have grade E but still fail (for example, with 30 marks in one subject).
-- Students with equal averages share the same rank (1, 1, 3, ...), and all tied students are shown as joint highest, lowest or top performers.
+The app checks students.csv and reports every problem it finds, with line numbers:
 
-These are **assumptions, not official college rules**. To change them, edit only the *CONFIGURATION* section at the top of `functions.py` (`GRADE_BOUNDARIES`, `PASS_MARK_PER_SUBJECT`, `PASS_AVERAGE`, `LOW_ATTENDANCE_THRESHOLD`). The attendance threshold can also be changed live with the sidebar slider.
+file missing, empty or not a well-formed CSV
+missing columns
+missing values
+marks or attendance that are not numbers
+marks or attendance outside 0 to 100
+duplicate student IDs
+10. Run Locally on Windows
 
----
+Open the project folder in VS Code, open a terminal, and run:
 
-## 8. Windows installation (run on your own computer)
-
-1. **Install Python** from <https://www.python.org/downloads/>. On the first installer screen tick **"Add python.exe to PATH"**. Check it with `py --version`.
-2. **Download and extract** the project ZIP (right-click, *Extract All*).
-3. **Open the folder in VS Code:** *File > Open Folder...* and choose `student-performance-analytics`. Open a terminal with *Terminal > New Terminal* (the terminal should already be inside the project folder).
-
-### 9. Create a virtual environment
-
-```
 py -m venv .venv
 .venv\Scripts\activate
 python -m pip install --upgrade pip
-```
-
-When it works, the terminal prompt starts with `(.venv)`.
-
-> **PowerShell says "running scripts is disabled"?** Run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned`, then run `.venv\Scripts\activate` again. Alternatively, open a *Command Prompt* terminal in VS Code instead of PowerShell.
-
-### 10. Install the dependencies
-
-```
 pip install -r requirements.txt
-```
-
-### 11. Run the application locally
-
-```
 streamlit run app.py
-```
 
-Your browser opens at <http://localhost:8501>. Press `Ctrl+C` in the terminal to stop the app.
+The app opens at http://localhost:8501. Press Ctrl+C in the terminal to stop it.
 
-### 12. Run the automated tests
+If PowerShell says scripts are disabled, run Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned and then .venv\Scripts\activate again.
 
-```
+11. Automated Tests
 python -m unittest -v
-```
 
-Every test should be listed as `ok`, ending with `OK`. If a test fails, read the message: it names the calculation or check that failed.
+The project includes 102 tests. Every test should show ok, and the run should end with OK.
 
----
+12. Deployment
 
-## 13. Upload the project to GitHub
+The app is deployed on Streamlit Community Cloud from the main branch with app.py as the main file.
 
-**One-time setup:** create a free account at <https://github.com> and install Git for Windows from <https://git-scm.com/download/win>. Then, in the VS Code terminal:
+To update the live website after changing the code:
 
-```
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
-```
-
-**Create the repository**
-
-1. On GitHub click **+ > New repository**.
-2. Repository name: `student-performance-analytics`. Set it to **Public** (the simplest option for Streamlit Community Cloud).
-3. **Do not** tick "Add a README", ".gitignore" or a licence (the project already has its files). Click **Create repository**.
-
-**Upload the files** (from the project folder, with the virtual environment still active or not - it does not matter):
-
-```
-git init
 git add .
-git commit -m "Student Performance Analytics System"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/student-performance-analytics.git
-git push -u origin main
-```
+git commit -m "Describe your change"
+git push
 
-Replace `YOUR-USERNAME` with your GitHub username. GitHub may ask you to sign in in a browser the first time.
-
-**Verify the upload:** refresh the repository page and check that you can see `app.py`, `functions.py`, `students.csv`, `requirements.txt`, `test_functions.py`, `README.md`, `Project_Documentation.md`, `.gitignore` and the `.streamlit` folder, and that there is **no** `.venv` folder (the `.gitignore` file prevents it).
-
-*No Git?* Alternative: on the repository page choose **Add file > Upload files**, drag in the project files and the `.streamlit` folder (not `.venv`), and click **Commit changes**.
-
-## 14. Deploy on Streamlit Community Cloud
-
-1. Go to <https://share.streamlit.io> and sign in with your GitHub account (authorise access when asked).
-2. Click **Create app** and choose to deploy from an existing GitHub repository.
-3. Select your repository `student-performance-analytics`, branch `main`, and set **Main file path** to `app.py`.
-4. Optionally choose a custom app URL (subdomain), then click **Deploy**.
-5. Wait for the build (it installs `requirements.txt`). When it finishes, your public website opens.
-6. **Test it:** open every tab, try the filters and the sidebar slider, and download a CSV.
-
-No secrets, API keys or database are needed, so nothing needs to be entered in *Advanced settings* (unless you want to pick a Python version; use 3.10 or newer).
-
-> Menu names on share.streamlit.io may change slightly over time; the idea stays the same: repository + branch + `app.py`.
-
-## 15. Update the deployed application
-
-1. Edit the code or `students.csv` on your computer and test locally (`streamlit run app.py` and `python -m unittest -v`).
-2. Upload the changes:
-   ```
-   git add .
-   git commit -m "Describe your change"
-   git push
-   ```
-3. Streamlit Community Cloud detects the new commit and redeploys automatically (refresh the page after a minute). If it does not, open the app's menu on Streamlit Cloud and choose **Reboot app**.
-
-## 16-17. Add your real links
-
-After deployment, paste your real GitHub repository URL and live website URL into:
-
-- the table at the top of this `README.md`, and
-- sections 12 and 13 of `Project_Documentation.md`,
-
-then commit and push the change (`git add .`, `git commit -m "Add links"`, `git push`).
-
----
-
-## Troubleshooting
-
-| Problem | What to do |
-|---|---|
-| `py` is not recognised | Reinstall Python with *Add python.exe to PATH* ticked, or use `python` instead of `py`. |
-| `streamlit` is not recognised | Activate the virtual environment first (`.venv\Scripts\activate`) and run `pip install -r requirements.txt`. |
-| The app shows "The student data could not be loaded" | Read the listed problems and fix `students.csv`. |
-| Deployment fails with a missing module | Make sure `requirements.txt` is in the repository root and lists all packages. |
+Streamlit Community Cloud redeploys automatically after a minute or two. If it does not, open the app's menu on Streamlit Cloud and choose Reboot app.
