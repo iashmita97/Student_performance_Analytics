@@ -1,165 +1,339 @@
-🎓 Student Performance Analytics System
+# 🎓 Student Performance Analytics System
 
-A web dashboard that analyses student marks and attendance. Built with Python, NumPy, Pandas and Streamlit as an academic project for a Python with AI course.
+A web dashboard that analyzes student marks and attendance using **Python, NumPy, Pandas, and Streamlit**. Developed as an academic project for a *Python with AI* course.
 
-	
-🌐 Live website	https://student-performance-analytics-ashmita06.streamlit.app/
-💻 GitHub repository	https://github.com/iashmita97/Student_performance_Analytics
-👩‍🎓 Author	Ashmita
+| Resource | Link |
+|---|---|
+| 🌐 **Live Website** | [Open Dashboard](https://student-performance-analytics-ashmita06.streamlit.app/) |
+| 💻 **GitHub Repository** | [View Source Code](https://github.com/iashmita97/Student_performance_Analytics) |
+| 👩‍🎓 **Author** | Ashmita |
 
-Fictional data: every student in students.csv is invented for this project. No real student information is used.
+> **Data notice:** All student records in `students.csv` are fictional. No real student information is used.
+>
+> **Rules notice:** Grade boundaries, pass criteria, and attendance thresholds are provisional assumptions for this project, not verified official college rules.
 
-Provisional rules: the grade boundaries, pass policy and attendance threshold are assumptions made for this project. They are not verified official college rules.
+---
 
-📌 Table of Contents
-Project Overview
-Features
-Technologies Used and How
-How the Project Works
-Folder Structure
-Dataset
-Grading and Pass Rules
-Calculations
-Data Validation
-Run Locally on Windows
-Automated Tests
-Deployment
-1. Project Overview
+## 📌 Table of Contents
 
-The app reads 28 fictional student records from students.csv, checks that the data is valid, and then calculates totals, averages, grades, pass/fail results, ranks and attendance flags. Everything is shown in an interactive dashboard.
+1. [Project Overview](#1-project-overview)
+2. [Features](#2-features)
+3. [Technologies Used](#3-technologies-used)
+4. [How the Project Works](#4-how-the-project-works)
+5. [Folder Structure](#5-folder-structure)
+6. [Dataset](#6-dataset)
+7. [Grading and Pass Rules](#7-grading-and-pass-rules)
+8. [Calculations](#8-calculations)
+9. [Data Validation](#9-data-validation)
+10. [Run Locally on Windows](#10-run-locally-on-windows)
+11. [Automated Tests](#11-automated-tests)
+12. [Deployment](#12-deployment)
 
-No machine learning, database, API key or paid service is used.
+---
 
-2. Features
-Tab	What it shows
-Overview	Student count, class average, pass percentage, passed/failed counts, and the highest-performing student(s). Ties are handled.
-Student Records	The original dataset, a calculated results table, department filter, pass/fail filter, name/ID search, and a CSV download of the filtered rows.
-Subject Analysis	Average marks of each subject, a comparison chart, and the highest and lowest subject.
-Student Performance	Highest and lowest student averages, a ranked top-student table, and a chart of every student's average.
-Attendance	Average, highest and lowest attendance, a chart with a threshold line, and students below an adjustable threshold. Low attendance is kept separate from academic failure.
-Individual Student	Pick a student to see marks, total, average, grade, rank, pass/fail (with the reason for a fail) and attendance.
-Downloads	A CSV of all results, including the calculated fields.
+## 1. Project Overview
 
-The sidebar also has a low-attendance slider and a panel showing the grading rules in use.
+The application reads **28 fictional student records** from `students.csv`, validates the data, and calculates:
 
-3. Technologies Used and How
-Technology	Where it is used	How it is used
-Python	app.py, functions.py, test_functions.py	Variables and data types for the configuration. if statements for grading and pass/fail rules. for loops to find a grade and to build tables and lists. Reusable functions for every calculation. A custom DataValidationError class for clear error messages.
-NumPy	functions.py	np.sum(axis=1) gives each student's total. np.mean(axis=0) gives each subject's average. np.mean, np.max, np.min and np.sum summarise attendance. np.where creates the Low_Attendance Yes/No column. np.isfinite rejects invalid numbers.
-Pandas	functions.py, app.py	read_csv loads students.csv into a DataFrame. to_numeric converts marks during validation. New columns hold Total, Average, Grade, Result, Rank and Low_Attendance. Boolean filtering, isin and str.contains power the filters and search. rank(method="min") gives tied students the same rank. to_csv creates the downloads.
-Streamlit	app.py	Builds the web page: tabs, columns, metric cards, tables with number formatting, sidebar, slider, multiselect, radio buttons, text search, dropdown, download buttons, and error and info messages.
-Altair	app.py	Draws the bar charts: subject averages with labels, student averages coloured green (pass) or red (fail), and attendance with a dashed threshold line. Comes with Streamlit and is listed in requirements.txt.
-unittest	test_functions.py	Tests grade boundaries, pass/fail rules, ties, validation, filters and CSV export. Also uses Streamlit's built-in AppTest to check that the app starts and shows errors for bad data.
-Git and GitHub	Repository	Stores the code and tracks changes.
-Streamlit Community Cloud	Live website	Deploys the app from the main branch using app.py as the entry point and installs the packages in requirements.txt.
-4. How the Project Works
+- Total and average marks
+- Grades and pass/fail results
+- Student ranks
+- Subject-wise performance
+- Attendance statistics and low-attendance flags
 
-The calculations and the web page are kept in separate files, so the calculations can be tested without opening the website.
+The results are presented through an interactive Streamlit dashboard with tables, charts, filters, and downloadable CSV files.
 
-students.csv  ──►  functions.py  ──►  app.py  ──►  Dashboard in the browser
- (the data)       (load, validate,    (Streamlit      (tabs, charts, tables,
-                   calculate)          interface)      CSV downloads)
-                        ▲
-                        │
-                 test_functions.py
-                 (automated tests)
-app.py asks functions.py to load and validate students.csv.
-If the data is invalid, the app shows every problem and stops. It never replaces bad values with invented ones.
-If the data is valid, functions.py adds the calculated columns.
-app.py displays the results in tabs, charts and tables.
-5. Folder Structure
+**No machine learning model, database, API key, or paid service is required.**
+
+---
+
+## 2. Features
+
+| Dashboard Section | Description |
+|---|---|
+| **Overview** | Student count, class average, pass percentage, passed/failed counts, and highest-performing students. Ties are handled. |
+| **Student Records** | Original dataset, calculated results, department and result filters, name/ID search, and filtered CSV download. |
+| **Subject Analysis** | Subject-wise average marks, comparison chart, and highest- and lowest-performing subjects. |
+| **Student Performance** | Highest and lowest student averages, ranked top performers, and a chart of student averages. |
+| **Attendance** | Average, highest and lowest attendance, attendance chart, threshold line, and a list of students below the selected threshold. |
+| **Individual Student** | Selected student's marks, total, average, grade, rank, result, reason for failure, and attendance. |
+| **Downloads** | Download all student results, including calculated fields, as a CSV file. |
+
+**Additional controls:** The sidebar includes a low-attendance threshold slider and a panel displaying the grading and pass/fail rules currently in use.
+
+---
+
+## 3. Technologies Used
+
+| Technology | Files Used | Purpose |
+|---|---|---|
+| **Python** | `app.py`, `functions.py`, `test_functions.py` | Variables, conditions, loops, reusable functions, calculations, and custom validation errors. |
+| **NumPy** | `functions.py` | Calculates totals and averages and summarizes attendance using functions such as `np.sum()`, `np.mean()`, `np.max()`, `np.min()`, and `np.where()`. `np.isfinite()` helps detect invalid numerical values. |
+| **Pandas** | `functions.py`, `app.py` | Reads CSV data into DataFrames, validates values, adds calculated columns, filters records, ranks students, searches names, and exports results using `to_csv()`. |
+| **Streamlit** | `app.py` | Creates the interactive web dashboard, tabs, metric cards, tables, filters, sliders, dropdowns, charts, and download buttons. |
+| **Altair** | `app.py` | Creates charts for subject averages, student performance, and attendance. |
+| **unittest** | `test_functions.py` | Tests grade boundaries, pass/fail rules, ties, data validation, filtering, CSV export, and application behavior using Streamlit's `AppTest`. |
+| **Git and GitHub** | Repository | Stores the project source code and tracks changes. |
+| **Streamlit Community Cloud** | Live website | Hosts the application using `app.py` and installs dependencies from `requirements.txt`. |
+
+---
+
+## 4. How the Project Works
+
+The calculation logic and the web interface are kept in separate files, making the calculations easier to test and maintain.
+
+```text
+             students.csv
+                  |
+                  v
+             functions.py
+          (Load and validate
+             the data)
+                  |
+                  v
+               app.py
+        (Streamlit dashboard)
+                  |
+                  v
+          Interactive Website
+       (Tables, charts, filters,
+           and downloads)
+
+          test_functions.py
+       (Automated testing)
+```
+
+### Workflow
+
+1. `app.py` asks `functions.py` to load and validate `students.csv`.
+2. If the data is invalid, the application displays the detected problems and stops processing the invalid dataset.
+3. If the data is valid, the calculation functions generate totals, averages, grades, results, ranks, and attendance flags.
+4. Streamlit displays the calculated information through interactive tabs, charts, and tables.
+5. Users can filter student records and download the results as CSV files.
+6. Automated tests check the calculation logic and selected application behaviors.
+
+---
+
+## 5. Folder Structure
+
+```text
 Student_performance_Analytics/
-├── app.py                    # Streamlit web app (entry point)
-├── functions.py              # Calculations, validation, grading settings
+│
+├── app.py                    # Streamlit dashboard
+├── functions.py              # Calculations and validation
 ├── students.csv              # 28 fictional student records
-├── requirements.txt          # Python packages needed
+├── requirements.txt          # Required Python packages
 ├── test_functions.py         # Automated tests
-├── README.md                 # This file
+├── README.md                 # Project overview and instructions
 ├── Project_Documentation.md  # Academic project documentation
-├── .gitignore                # Files Git ignores
+├── .gitignore                # Files excluded from Git
+│
 └── .streamlit/
-    └── config.toml           # Colour theme only (no secrets)
-6. Dataset
+    └── config.toml            # Streamlit theme configuration
+```
 
-students.csv has one row per student:
+---
 
-Column	Meaning
-Student_ID	Unique ID such as S001
-Name	Fictional student name
-Department	Computer Science, Information Technology, Electronics or Mechanical
-Mathematics, Python, Computer_Science, English	Marks out of 100 each
-Attendance	Attendance percentage (0 to 100)
+## 6. Dataset
 
-The data has no missing values and no duplicate IDs. It includes a wide range of performance (grades A to F) and a few deliberate special cases:
+The `students.csv` file contains one row per student and includes the following columns:
 
-two students tied for the highest average
-a student who fails because of one subject even though the average is above 40
-students with low attendance who pass, and others who fail
-a student whose attendance is exactly on the threshold
-7. Grading and Pass Rules
+| Column | Description |
+|---|---|
+| `Student_ID` | Unique student identifier, such as `S001`. |
+| `Name` | Fictional student name. |
+| `Department` | Student's department: Computer Science, Information Technology, Electronics, or Mechanical. |
+| `Mathematics` | Mathematics marks out of 100. |
+| `Python` | Python programming marks out of 100. |
+| `Computer_Science` | Computer Science marks out of 100. |
+| `English` | English marks out of 100. |
+| `Attendance` | Attendance percentage, from 0 to 100. |
 
-Each of the 4 subjects is worth 100 marks, so the maximum total is 400.
+### Dataset Highlights
 
-Grade	Average marks
-A	90 to 100
-B	80 to below 90
-C	70 to below 80
-D	60 to below 70
-E	40 to below 60
-F	below 40
-Pass: at least 35 marks in every subject and an overall average of at least 40. Otherwise the result is Fail.
-Low attendance: attendance below 75%. Attendance is never used for pass/fail.
-Grade and result are separate: a student can have grade E but still fail, for example with only 30 marks in one subject.
+- Contains 28 fictional student records.
+- Has no missing values or duplicate student IDs in the supplied dataset.
+- Includes a range of academic performance levels, from grades A to F.
+- Contains two students tied for the highest average.
+- Includes a student who fails one subject despite having an overall average above 40.
+- Includes students with low attendance who pass, as well as students who fail academically.
+- Includes a student whose attendance is exactly at the threshold.
 
-These rules are stored in one configuration section at the top of functions.py, so they are easy to change.
+These examples help demonstrate how the application handles different scenarios.
 
-8. Calculations
-Calculation	Formula or rule
-Total marks	Sum of the four subject marks
-Average marks	Total ÷ 4
-Class average	Mean of all student averages
-Subject average	Mean of one subject across all students
-Pass percentage	Passed students ÷ total students × 100
-Rank	Equal averages share a rank (for example 1, 1, 3)
-Highest and lowest	All tied students are listed, never just one
-Low attendance	Attendance below the threshold (exactly equal is not low)
-9. Data Validation
+---
 
-The app checks students.csv and reports every problem it finds, with line numbers:
+## 7. Grading and Pass Rules
 
-file missing, empty or not a well-formed CSV
-missing columns
-missing values
-marks or attendance that are not numbers
-marks or attendance outside 0 to 100
-duplicate student IDs
-10. Run Locally on Windows
+Each of the four subjects carries a maximum of 100 marks. Therefore, the maximum total is **400 marks**.
 
-Open the project folder in VS Code, open a terminal, and run:
+### Grade Boundaries
 
+| Grade | Average Marks |
+|---|---:|
+| A | 90 to 100 |
+| B | 80 to below 90 |
+| C | 70 to below 80 |
+| D | 60 to below 70 |
+| E | 40 to below 60 |
+| F | Below 40 |
+
+### Pass/Fail Criteria
+
+A student passes only when both conditions are satisfied:
+
+1. At least **35 marks in every subject**.
+2. An overall average of at least **40 marks**.
+
+Otherwise, the result is **Fail**.
+
+### Attendance Criteria
+
+- Low attendance means attendance is **below 75%** by default.
+- Attendance exactly equal to 75% is not classified as low.
+- Attendance does not determine academic pass/fail status.
+- The attendance threshold can be adjusted through the dashboard.
+
+**Note:** These are configurable project assumptions, not official college grading rules. The grade and pass/fail result are calculated separately. For example, a student can receive grade E based on the average but still fail because one subject has fewer than 35 marks.
+
+The rules are stored in the configuration section of `functions.py`, making them easy to modify.
+
+---
+
+## 8. Calculations
+
+| Calculation | Formula or Rule |
+|---|---|
+| **Total Marks** | Sum of marks in the four subjects. |
+| **Average Marks** | Total marks ÷ 4. |
+| **Class Average** | Mean of all student averages. |
+| **Subject Average** | Mean marks for an individual subject across all students. |
+| **Pass Percentage** | (Number of passed students ÷ Total students) × 100. |
+| **Rank** | Students with equal averages share the same rank; for example, 1, 1, 3. |
+| **Highest and Lowest Performance** | All students tied for the highest or lowest value are included. |
+| **Low Attendance** | Attendance below the selected threshold. A value exactly equal to the threshold is not low. |
+
+---
+
+## 9. Data Validation
+
+Before performing calculations, the application checks the dataset and reports detected problems, including line numbers where available.
+
+Validation covers:
+
+- Missing, empty, or malformed CSV files.
+- Missing required columns.
+- Missing values.
+- Non-numeric marks or attendance.
+- Marks or attendance outside the valid range of 0 to 100.
+- Duplicate student IDs.
+
+The application reports invalid data rather than silently replacing it with invented values.
+
+---
+
+## 10. Run Locally on Windows
+
+Follow these steps to run the project on your computer.
+
+### Step 1: Open the Project
+
+Clone your repository and open the project folder in VS Code.
+
+```bash
+git clone https://github.com/iashmita97/Student_performance_Analytics.git
+cd Student_performance_Analytics
+```
+
+### Step 2: Create a Virtual Environment
+
+```bash
 py -m venv .venv
+```
+
+### Step 3: Activate the Environment
+
+```powershell
 .venv\Scripts\activate
+```
+
+If PowerShell blocks script execution, run the following command in the current terminal session:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+```
+
+Then activate the environment again.
+
+### Step 4: Install Dependencies
+
+```bash
 python -m pip install --upgrade pip
 pip install -r requirements.txt
+```
+
+### Step 5: Start the Application
+
+```bash
 streamlit run app.py
+```
 
-The app opens at http://localhost:8501. Press Ctrl+C in the terminal to stop it.
+The dashboard should open in your browser at:
 
-If PowerShell says scripts are disabled, run Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned and then .venv\Scripts\activate again.
+**http://localhost:8501**
 
-11. Automated Tests
+To stop the application, press `Ctrl + C` in the terminal.
+
+---
+
+## 11. Automated Tests
+
+The project includes automated tests for important calculations and application behavior.
+
+Run the test suite from the project directory:
+
+```bash
 python -m unittest -v
+```
 
-The project includes 102 tests. Every test should show ok, and the run should end with OK.
+The expected result is for all **102 tests** to pass, with the final output ending in:
 
-12. Deployment
+```text
+OK
+```
 
-The app is deployed on Streamlit Community Cloud from the main branch with app.py as the main file.
+If any test fails, review the error message and fix the issue before submitting the project.
 
-To update the live website after changing the code:
+---
 
+## 12. Deployment
+
+The application is hosted on **Streamlit Community Cloud** and uses the main GitHub branch, with `app.py` as the application entry point.
+
+### Live Links
+
+- **Live Dashboard:** https://student-performance-analytics-ashmita06.streamlit.app/
+- **GitHub Repository:** https://github.com/iashmita97/Student_performance_Analytics
+
+### Updating the Live Website
+
+After making changes to the project, run the following commands in the terminal:
+
+```bash
 git add .
-git commit -m "Describe your change"
+git commit -m "Update student performance analytics"
 git push
+```
 
-Streamlit Community Cloud redeploys automatically after a minute or two. If it does not, open the app's menu on Streamlit Cloud and choose Reboot app.
+Streamlit Community Cloud can redeploy the application after the changes are pushed to the connected branch. If the update does not appear, check the deployment logs and app status in the Streamlit Community Cloud dashboard.
+
+---
+
+## 🎯 Project Outcome
+
+The Student Performance Analytics System demonstrates how Python, NumPy, Pandas, and Streamlit can be combined to process student data and present useful academic insights through an interactive dashboard.
+
+The project applies core Python programming concepts, data validation, numerical calculations, tabular data processing, visualization, automated testing, GitHub version control, and cloud deployment in one practical application.
+
+**Developed by Ashmita**  
+*Python with AI — Academic Project, 2026*
