@@ -1,0 +1,7 @@
+# Visual theme only - no secrets or credentials are stored here.
+[theme]
+base = "light"
+primaryColor = "#1F4E79"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#EEF3F8"
+textColor = "#1F2933"

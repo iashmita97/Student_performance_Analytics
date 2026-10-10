@@ -1,0 +1,29 @@
+Student_ID,Name,Department,Mathematics,Python,Computer_Science,English,Attendance
+S001,Aarav Sen,Computer Science,95,98,96,90,96
+S002,Diya Mukherjee,Computer Science,96,94,98,91,92
+S003,Rohan Das,Information Technology,88,91,85,87,88
+S004,Ananya Roy,Information Technology,85,90,88,82,94
+S005,Kabir Ghosh,Electronics,78,84,80,75,81
+S006,Ishita Banerjee,Computer Science,91,89,93,88,97
+S007,Arjun Nair,Electronics,72,68,75,80,85
+S008,Meera Iyer,Mechanical,65,70,62,74,79
+S009,Vikram Singh,Mechanical,58,52,60,64,72
+S010,Sneha Patel,Information Technology,80,95,90,70,90
+S011,Rahul Verma,Electronics,45,50,48,32,68
+S012,Priya Chatterjee,Computer Science,76,82,79,85,93
+S013,Aditya Kulkarni,Mechanical,70,60,66,72,87
+S014,Tanvi Joshi,Information Technology,62,75,70,68,74
+S015,Siddharth Rao,Electronics,55,48,52,60,83
+S016,Neha Gupta,Computer Science,84,88,86,79,91
+S017,Karan Malhotra,Mechanical,30,62,58,60,76
+S018,Pooja Reddy,Information Technology,90,85,92,88,95
+S019,Amit Shah,Electronics,36,38,37,35,65
+S020,Riya Bhattacharya,Computer Science,74,80,77,71,89
+S021,Manish Kumar,Mechanical,66,58,61,69,75
+S022,Shreya Dutta,Information Technology,82,78,84,86,86
+S023,Dev Mehta,Electronics,68,72,64,66,80
+S024,Nisha Pillai,Computer Science,89,92,90,91,98
+S025,Harsh Vardhan,Mechanical,40,45,42,38,70
+S026,Lakshmi Menon,Information Technology,79,73,81,77,92
+S027,Farhan Ali,Electronics,60,35,55,50,84
+S028,Zoya Khan,Computer Science,20,25,30,40,58
